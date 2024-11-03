@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de Actividades</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --sidebar-width: 280px;
+            --header-height: 60px;
+            --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f8fafc;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background-color: white;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            z-index: 100;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .container {
+            display: flex;
+            margin-top: var(--header-height);
+            min-height: calc(100vh - var(--header-height));
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: white;
+            box-shadow: var(--shadow);
+            padding: 2rem 0;
+            position: fixed;
+            height: calc(100vh - var(--header-height));
+            overflow-y: auto;
+        }
+
+        .phase-list {
+            list-style: none;
+        }
+
+        .phase-item {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .phase-item:hover {
+            background-color: #f1f5f9;
+        }
+
+        .phase-item.active {
+            background-color: #e2e8f0;
+            border-left-color: var(--primary-color);
+        }
+
+        .phase-item h3 {
+            font-size: 1rem;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-item p {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+        }
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .activity-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .activity-content {
+            padding: 1.5rem;
+        }
+
+        .activity-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .type-word {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .type-powerpoint {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .activity-title {
+            font-size: 1.125rem;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+        }
+
+        .activity-description {
+            font-size: 0.875rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .download-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .preview-btn {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .download-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .preview-btn:hover {
+            background-color: #cbd5e1;
+        }
+
+        .preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            padding: 2rem;
+        }
+
+        .preview-modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-container {
+            background-color: white;
+            border-radius: 0.5rem;
+            width: 90%;
+            height: 90%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-header {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-preview {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: #64748b;
+        }
+
+        .preview-iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+        }
+
+        .back-btn {
+            margin-left: auto;
+            background-color: #e2e8f0;
+            color: #1e293b;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: background 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #cbd5e1;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <h1>Actividades por Fase</h1>
+        <a href="about.html" class="back-btn">Volver al inicio</a>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+            <ul class="phase-list" id="phaseList">
+                <!-- Las fases se generarán dinámicamente -->
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="activity-grid" id="activityGrid">
+                <!-- Las actividades se generarán dinámicamente -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para el preview -->
+    <div class="preview-modal" id="previewModal">
+        <div class="preview-container">
+            <div class="preview-header">
+                <h2 id="previewTitle">Preview del documento</h2>
+                <button class="close-preview" id="closePreview">&times;</button>
+            </div>
+            <iframe class="preview-iframe" id="previewFrame"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const phases = [
+            {
+                id: 1,
+                title: 'Unidad I. La administración y la gestión',
+                description: 'Actividades preliminares',
+                activities: [
+                    {
+                        title: 'Fase 1. Planificación. Objetivos y metas',
+                        type: 'word',
+                        description: 'Documento detallado con la planificación inicial del proyecto',
+                        // downloadUrl: 'https://ejemplo.com/documentos/plan.docx',
+                        previewUrl: 'https://docs.google.com/document/d/1XXA-l22TyZ5BkoCe6D4g1Qk_gvV3fgsF/preview'
+                    },
+                    {
+                        title: 'Fase 2. Planificación. Justificación',
+                        type: 'word',
+                        description: 'Presentación inicial para el equipo del proyecto',
+                        downloadUrl: 'https://ejemplo.com/documentos/kickoff.pptx',
+                        previewUrl: 'https://docs.google.com/document/d/1zwyyXE3tmr6K9hnfq3Bi5Ui0CdM-uK2H/preview'
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: 'Unidad II. Diseño del proyecto de solución',
+                description: 'Definición de objetivos y alcance',
+                activities: [
+                    {
+                        title: 'Fase 3. Organización. Actividades, tareas, recursos y procesos',
+                        type: 'word',
+                        description: 'Documento detallado con todos los requisitos del proyecto',
+                        downloadUrl: 'https://ejemplo.com/documentos/requisitos.docx',
+                        previewUrl: 'https://docs.google.com/document/d/1VDSRygxvpSVrSIbPqhDwrYvtuypCLnAg/preview'
+                    },
+                    {
+                        title: 'Fase 4. Dirección. División del trabajo',
+                        type: 'word',
+                        description: 'Documento detallado con todos los requisitos del proyecto',
+                        downloadUrl: 'https://ejemplo.com/documentos/requisitos.docx',
+                        previewUrl: 'https://docs.google.com/document/d/1FOdD7NwWJ4rxYJx_E1L8LSU8kwf6Q7JG/preview'
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: 'Unidad III. Las tecnologías emergentes en la administración y gestión',
+                description: 'Definición de objetivos y alcance',
+                activities: [
+                    {
+                        title: 'Fase 5: Control. Diagrama de Gantt para gestión del proyecto',
+                        type: 'word',
+                        description: 'Documento detallado con todos los requisitos del proyecto',
+                        downloadUrl: 'https://ejemplo.com/documentos/requisitos.docx',
+                        previewUrl: 'https://docs.google.com/document/d/1q2SV6HdtthfAYzjFGsoVJrfysvxnA4J3/preview'
+                    },
+                    {
+                        title: 'Fase 6: Control. Medir y corregir',
+                        type: 'word',
+                        description: 'Documento detallado con todos los requisitos del proyecto',
+                        downloadUrl: 'https://ejemplo.com/documentos/requisitos.docx',
+                        previewUrl: 'https://docs.google.com/document/d/1zGNC5arKJUbvHjIAkhZZChaPFBHlMHRu/preview'
+                    }
+                ]
+            }
+        ];
+
+        function renderPhases() {
+            const phaseList = document.getElementById('phaseList');
+            phaseList.innerHTML = phases.map((phase, index) => `
+                <li class="phase-item ${index === 0 ? 'active' : ''}" onclick="selectPhase(${index})">
+                    <h3>${phase.title}</h3>
+                    <p>${phase.description}</p>
+                </li>
+            `).join('');
+            selectPhase(0);
+        }
+
+        function selectPhase(index) {
+            const phaseItems = document.querySelectorAll('.phase-item');
+            phaseItems.forEach(item => item.classList.remove('active'));
+            phaseItems[index].classList.add('active');
+            renderActivities(phases[index].activities);
+        }
+
+        function renderActivities(activities) {
+            const activityGrid = document.getElementById('activityGrid');
+            activityGrid.innerHTML = activities.map(activity => `
+                <div class="activity-card">
+                    <div class="activity-content">
+                        <span class="activity-type ${activity.type === 'word' ? 'type-word' : 'type-powerpoint'}">${activity.type.toUpperCase()}</span>
+                        <h3 class="activity-title">${activity.title}</h3>
+                        <p class="activity-description">${activity.description}</p>
+                        <div class="button-group">
+                            <button class="btn download-btn" onclick="openPreview('${activity.title}', '${activity.previewUrl}')">Vista previa</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openPreview(title, url) {
+            document.getElementById('previewTitle').innerText = title;
+            document.getElementById('previewFrame').src = url;
+            document.getElementById('previewModal').classList.add('active');
+        }
+
+        document.getElementById('closePreview').addEventListener('click', () => {
+            document.getElementById('previewModal').classList.remove('active');
+            document.getElementById('previewFrame').src = '';
+        });
+
+        renderPhases();
+    </script>
+</body>
+
+</html>

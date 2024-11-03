@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Proyecto - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --text-color: #111827;
+            --background-color: #f8fafc;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            --accent-color: #facc15;
+        }
+
+        body {
+            background-color: var(--background-color);
+        }
+
+        /* Estilos para el contenedor principal de la página */
+        .home-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-color);
+            padding: 2rem;
+        }
+
+        /* Estilos para el título principal */
+        .home-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        /* Logo de Prepa en Línea SEP */
+        .prepa-logo img {
+            width: 100px;
+            height: auto;
+            /* margin-top: 1rem; */
+        }
+
+        /* Estilos para el subtítulo */
+        .home-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #64748b;
+        }
+
+        /* Botones de navegación */
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .nav-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Información adicional */
+        .project-description {
+            font-size: 1rem;
+            color: #4b5563;
+            max-width: 800px;
+            margin-top: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Sección de tecnologías */
+        .technologies {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .tech-title {
+            font-size: 1rem;
+            color: #4b5563;
+            margin-bottom: 1rem;
+        }
+
+        .technology-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .technology-item {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+
+        .technology-item img {
+            width: 80px;
+            height: 80px;
+        }
+
+        /************/
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --text-color: #111827;
+            --background-color: #f8fafc;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            --accent-color: #facc15;
+            --hover-color: #e0e7ff;
+        }
+
+        body {
+            background-color: var(--background-color);
+            overflow-x: hidden;
+        }
+
+        /* Estilos para el contenedor principal de la página */
+        .home-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--text-color);
+            padding: 2rem;
+            background: linear-gradient(135deg, #e0f2ff, #f8fafc);
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        /* Estilos para el título principal */
+        .home-title {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .home-title:hover {
+            transform: scale(1.05);
+        }
+
+        /* Logo de Prepa en Línea SEP */
+        .prepa-logo img {
+            width: 120px;
+            height: auto;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .prepa-logo img:hover {
+            transform: scale(1.1);
+            opacity: 0.9;
+        }
+
+        /* Estilos para el subtítulo */
+        .home-subtitle {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #475569;
+            letter-spacing: 1px;
+        }
+
+        /* Botones de navegación */
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .nav-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: background 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-btn:hover {
+            background-color: #1e40af;
+            transform: translateY(-2px);
+        }
+
+        /* Información adicional */
+        .project-description {
+            font-size: 1rem;
+            color: #4b5563;
+            max-width: 800px;
+            margin-top: 1rem;
+            line-height: 1.6;
+            background-color: #f1f5f9;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .project-description .highlight {
+            color: var(--primary-color);
+            font-weight: bold;
+            background: var(--hover-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 5px;
+        }
+
+        /* Sección de tecnologías */
+        .technologies {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 3rem;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 1.5rem;
+        }
+
+        .tech-title {
+            font-size: 1.2rem;
+            color: #475569;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .technology-icons {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .technology-item {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #4b5563;
+            transition: transform 0.3s ease;
+        }
+
+        .technology-item:hover {
+            transform: scale(1.1);
+        }
+
+        .technology-item img {
+            width: 90px;
+            height: 90px;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+            transition: filter 0.3s ease, transform 0.2s ease;
+        }
+
+        .technology-item img:hover {
+            filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.3));
+            transform: rotate(-5deg) scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Contenedor principal de la página de inicio -->
+    <div class="home-container">
+        <p class="home-title">¡Bienvenidos a Mi Proyecto!</p>
+        <h1 class="home-subtitle">Catálogo digital de servicios brindados por adultos mayores en Huixquilucan</h1>
+
+        <!-- Logo de Prepa en Línea SEP debajo del subtítulo -->
+        <div class="prepa-logo">
+            <img src="https://seeklogo.com/images/P/prepa-en-linea-sep-logo-2FB4AA5250-seeklogo.com.png"
+                alt="Prepa en Línea SEP Logo">
+        </div>
+
+        <p class="project-description">
+            Esta página web busca centralizar las actividades y fases clave del proceso de desarrollo del proyecto
+            correspondiente al módulo 23 de modo que se puedan visualizar de una forma estructurada y eficiente. Para
+            ello, haz clic en
+            "Visor de Actividades".
+        </p>
+
+        <p class="project-description">
+            Soy una persona apasionada por la tecnología y el desarrollo web. Actualmente, trabajo en proyectos que
+            incluyen la creación de sitios web y aplicaciones que buscan mejorar la eficiencia y la experiencia del
+            usuario.
+        </p>
+
+        <p class="project-description">
+            Mi objetivo es proporcionar <span class="highlight">soluciones digitales innovadoras</span> y ayudar a otros
+            a alcanzar sus metas a través de la tecnología.
+        </p>
+
+        <!-- Botones de navegación -->
+        <div class="nav-buttons">
+            <a href="visor.html" class="nav-btn">Visor de Actividades</a>
+        </div>
+
+        <!-- Sección de tecnologías utilizadas -->
+        <div class="technologies">
+            <p class="tech-title">Desarrollado con:</p>
+            <div class="technology-icons">
+                <div class="technology-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg"
+                        alt="HTML Logo">
+                    <p>HTML</p>
+                </div>
+                <div class="technology-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg"
+                        alt="CSS Logo">
+                    <p>CSS</p>
+                </div>
+                <div class="technology-item">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png"
+                        alt="JavaScript Logo">
+                    <p>JavaScript</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
